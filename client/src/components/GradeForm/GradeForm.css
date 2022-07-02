@@ -1,0 +1,11 @@
+.form-block {
+  margin: 0 auto;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.form-block-content {
+  margin-top: 25px;
+}
