@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Button, MenuItem, Select } from '@mui/material';
+import env from 'react-dotenv';
 export default function StudentAvgChart() {
   const [yearsAndQuarters, setYearsAndQuarters] = useState([]);
 
@@ -9,10 +10,6 @@ export default function StudentAvgChart() {
     year: '',
     quarter: '',
   });
-
-  // const handleYearInput = (e) => {
-  //   setInputData((prev) => ({ ...prev, year: e.target.value }));
-  // };
 
   const handleInputData = (e) => {
     console.log(e.target.value);
@@ -35,14 +32,14 @@ export default function StudentAvgChart() {
   };
 
   const getYearsAndQuarters = async () => {
-    const { data } = await axios.get('http://localhost:5000/get-years');
+    const { data } = await axios.get(`${env.SERVER_URL}/get-years`);
     setYearsAndQuarters(data);
   };
   const getData = async () => {
     console.log(inputData);
     setTimeout(clearInputs, 500);
     const { data } = await axios.post(
-      'http://localhost:5000/lesson/reports/avg-per-quarter-and-year',
+      `${env.SERVER_URL}/lesson/reports/avg-per-quarter-and-year`,
       {
         year: inputData.year,
         quarter: inputData.quarter,

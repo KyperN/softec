@@ -21,12 +21,13 @@ const getYears = async (req, res) => {
 };
 
 const getLessonQuarterAvg = async (req, res) => {
+  const { lesson, year } = req.query;
   try {
     const data = await Grade.aggregate([
       {
         $match: {
-          lesson: req.body.lesson,
-          year: req.body.year,
+          lesson: lesson,
+          year: year,
         },
       },
       {
@@ -36,7 +37,7 @@ const getLessonQuarterAvg = async (req, res) => {
         },
       },
     ]);
-
+    console.log(data);
     res.status(200).send(data);
   } catch (err) {
     console.log(err.message);
@@ -44,7 +45,7 @@ const getLessonQuarterAvg = async (req, res) => {
 };
 
 const getStudentQuarterAvg = async (req, res) => {
-  const { studentId } = req.query.params;
+  const studentId = req.query.studentId;
   try {
     const data = await Grade.aggregate([
       {

@@ -1,26 +1,24 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const env = require('dotenv').config();
 const Student = require('./schemes/Student');
 const Grade = require('./schemes/Grade');
 const studentsController = require('./controllers/studentsController');
 const reportsController = require('./controllers/reportsController');
 const app = express();
-const PORT = 5000;
 
 app.use(express.json());
 
 const start = async () => {
   try {
-    await mongoose.connect(
-      'mongodb+srv://admin:admin@cluster0.8rkr9hz.mongodb.net/students?retryWrites=true&w=majority'
-    );
+    await mongoose.connect(env.parsed.DB_URL);
     console.log('db connected');
   } catch (err) {
     console.error('error!!!', err.message);
   }
 };
 
-app.listen(PORT, () => {
+app.listen(env.parsed.PORT, () => {
   start();
   console.log('serv run');
 });
@@ -46,7 +44,7 @@ app.post('/lesson/reports/avg-per-quarter-and-year', async (req, res) => {
 });
 
 app.get(
-  '/lesson/report/subject-quarter-avg',
+  '/lesson/report/lesson-quarter-avg',
   reportsController.getLessonQuarterAvg
 );
 

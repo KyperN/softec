@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Chart as ChartJS } from 'chart.js/auto';
 import { Chart } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
+import env from 'react-dotenv';
 import { useState, useEffect } from 'react';
 import { Button, MenuItem, Select } from '@mui/material';
 export default function StudentAvgChart() {
@@ -21,7 +22,7 @@ export default function StudentAvgChart() {
   };
 
   const getYears = async () => {
-    const { data } = await axios.get('http://localhost:5000/get-years');
+    const { data } = await axios.get(`${env.SERVER_URL}get-years`);
     const years = [...new Set(data.map((elem) => elem.year))];
     setYears(years);
     console.log(years);
@@ -30,7 +31,7 @@ export default function StudentAvgChart() {
   const getChartData = async () => {
     setTimeout(clearInputs, 500);
     const { data } = await axios.get(
-      'http://localhost:5000/lesson/report/subject-quarter-avg',
+      `${env.SERVER_URL}/lesson/report/lesson-quarter-avg`,
       {
         params: {
           lesson: chosenLesson,
@@ -39,7 +40,6 @@ export default function StudentAvgChart() {
       }
     );
     setChartData(data);
-    console.log(chartData);
   };
 
   const validateInput = () => {

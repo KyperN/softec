@@ -5,6 +5,7 @@ import { Button, MenuItem, Select } from '@mui/material';
 import { Chart as ChartJS } from 'chart.js/auto';
 import { Chart } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
+import env from 'react-dotenv';
 export default function StudentAvgChart() {
   const [students, setStudents] = useState([]);
   const [chosenStudent, setChosenStudent] = useState('');
@@ -12,7 +13,7 @@ export default function StudentAvgChart() {
 
   const getStudents = async () => {
     await axios
-      .get('http://localhost:5000/students')
+      .get(`${env.SERVER_URL}/students`)
       .then((res) => setStudents(res.data));
   };
 
@@ -30,9 +31,8 @@ export default function StudentAvgChart() {
 
   const getChartData = async () => {
     setTimeout(clearInputs, 500);
-    console.log(chosenStudent);
     const { data } = await axios.get(
-      'http://localhost:5000/student/report/per-quarter-avg',
+      `${env.SERVER_URL}/student/report/per-quarter-avg`,
       {
         params: {
           studentId: chosenStudent._id,

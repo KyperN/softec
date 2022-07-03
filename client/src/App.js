@@ -9,18 +9,8 @@ import StudentForm from './components/StudentForm/StudentForm';
 import GradeForm from './components/GradeForm/GradeForm';
 import Header from './components/Header/Header';
 import Chart from './components/Chart/Chart';
+
 function App() {
-  const fetch = async () => {
-    const { data } = await axios.get(
-      'http://localhost:5000/student/report/subject-quarter-avg'
-    );
-    console.log(data);
-  };
-
-  // useEffect(() => {
-  //   fetch();
-  // }, []);
-
   return (
     <div className="App">
       <Header />
