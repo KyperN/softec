@@ -23,25 +23,7 @@ app.listen(env.parsed.PORT, () => {
   console.log('serv run');
 });
 
-app.post('/lesson/reports/avg-per-quarter-and-year', async (req, res) => {
-  try {
-    const data = await Grade.aggregate([
-      {
-        $match: {
-          year: req.body.year,
-          quarter: req.body.quarter,
-        },
-      },
-      {
-        $group: {
-          _id: '$lesson',
-          averageGrade: { $avg: '$grade' },
-        },
-      },
-    ]);
-    console.log(data);
-  } catch (err) {}
-});
+app.post('/lesson/reports/avg-per-quarter-and-year');
 
 app.get(
   '/lesson/report/lesson-quarter-avg',

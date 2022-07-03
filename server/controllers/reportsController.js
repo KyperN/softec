@@ -69,6 +69,26 @@ const getStudentQuarterAvg = async (req, res) => {
   }
 };
 
+const getAvgPerQuarterAndYear = async (req, res) => {
+  try {
+    const data = await Grade.aggregate([
+      {
+        $match: {
+          year: req.body.year,
+          quarter: req.body.quarter,
+        },
+      },
+      {
+        $group: {
+          _id: '$lesson',
+          averageGrade: { $avg: '$grade' },
+        },
+      },
+    ]);
+    res.status(200).send(data);
+  } catch (err) {}
+};
+
 module.exports = {
   getYears: getYears,
   getLessonQuarterAvg: getLessonQuarterAvg,
