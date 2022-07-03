@@ -48,7 +48,6 @@ export default function StudentAvgChart() {
         quarter: inputData.quarter,
       }
     );
-    console.log(data);
   };
 
   useEffect(() => {

@@ -30,10 +30,13 @@ export default function StudentAvgChart() {
 
   const getChartData = async () => {
     setTimeout(clearInputs, 500);
-    const { data } = await axios.post(
+    console.log(chosenStudent);
+    const { data } = await axios.get(
       'http://localhost:5000/student/report/per-quarter-avg',
       {
-        studentId: chosenStudent._id,
+        params: {
+          studentId: chosenStudent._id,
+        },
       }
     );
     setChartData(data);

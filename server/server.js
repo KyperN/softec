@@ -50,7 +50,7 @@ app.get(
   reportsController.getLessonQuarterAvg
 );
 
-app.post(
+app.get(
   '/student/report/per-quarter-avg',
   reportsController.getStudentQuarterAvg
 );

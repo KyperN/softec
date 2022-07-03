@@ -44,7 +44,7 @@ const getLessonQuarterAvg = async (req, res) => {
 };
 
 const getStudentQuarterAvg = async (req, res) => {
-  const { studentId } = req.body;
+  const { studentId } = req.query.params;
   try {
     const data = await Grade.aggregate([
       {
