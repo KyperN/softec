@@ -6,6 +6,8 @@ import {
   Select,
   TextField,
 } from '@mui/material';
+import { Circles } from 'react-loader-spinner';
+import env from 'react-dotenv';
 import React from 'react';
 import './GradeForm.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +24,7 @@ export default function GradeForm() {
   const dispatch = useDispatch();
 
   const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState('');
   const [inputData, setInputData] = useState({
     year: '',
@@ -47,9 +50,13 @@ export default function GradeForm() {
   };
 
   const getStudents = async () => {
+    setLoading(!loading);
     await axios
-      .get('http://localhost:5000/students')
-      .then((res) => setStudents(res.data));
+      .get(`${env.SERVER_URL}/students`)
+      .then((res) => setStudents(res.data))
+      .then(() => {
+        setLoading(false);
+      });
   };
   const quarterHandle = (e) => {
     setInputData((prev) => ({ ...prev, quarter: e.target.value }));
@@ -95,7 +102,7 @@ export default function GradeForm() {
     const { year, quarter, lesson, grade, studentId } = gradeData;
     try {
       await axios
-        .post('http://localhost:5000/create-grade', {
+        .post(`${env.SERVER_URL}/create-grade`, {
           year: year,
           quarter: quarter,
           grade: grade,
@@ -127,91 +134,106 @@ export default function GradeForm() {
 
   return (
     <div className="form-block">
-      <div className="form-block-content">
-        <Select
-          onChange={(e) => chooseStudentHandle(e)}
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={inputData.studentName}
-          label="Quarter">
-          {students.map((student) => {
-            return <MenuItem value={student.name}>{student.name}</MenuItem>;
-          })}
-        </Select>
-      </div>
-      <div className="form-block-content">
-        <InputLabel className="form-block-field" id="demo-simple-select-label">
-          Year
-        </InputLabel>
-        <TextField
-          className="form-block-field"
-          onChange={yearHandle}
-          id="standard-basic"
-          variant="standard"
-          type="number"
-          value={inputData.year}
-        />
-      </div>
-      <div className="form-block-content">
-        <InputLabel id="demo-simple-select-label">Quarter</InputLabel>
-        <Select
-          className="form-block-field"
-          onChange={(e) => quarterHandle(e)}
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={inputData.quarter}
-          label="Quarter">
-          {quarters.map((quarter) => {
-            return <MenuItem value={quarter}>{quarter.toUpperCase()}</MenuItem>;
-          })}
-        </Select>
-      </div>
-      <div className="form-block-content">
-        <InputLabel id="demo-simple-select-label">Lesson</InputLabel>
-        <Select
-          onChange={(e) => lessonHandle(e)}
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={inputData.lesson}
-          label="Lesson">
-          {lessons.map((lesson) => {
-            return <MenuItem value={lesson}>{lesson.toUpperCase()}</MenuItem>;
-          })}
-        </Select>
-        <InputLabel id="demo-simple-select-label">Grade</InputLabel>
-      </div>
-      <div className="form-block-content">
-        <Select
-          onChange={(e) => {
-            gradeHandle(e);
-          }}
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={inputData.grade}
-          label="Grades">
-          {grades.map((quarter) => {
-            return <MenuItem value={quarter}>{quarter.toUpperCase()}</MenuItem>;
-          })}
-        </Select>
-      </div>
-
-      <div className="form-block-content">
-        <Button
-          disabled={validateInput()}
-          onClick={postGrade}
-          variant="contained">
-          Create
-        </Button>
-      </div>
-      <div style={status === '' ? { opacity: 0 } : { opacity: 1 }}>
-        {status === 201 ? (
-          <Alert severity="success">
-            This is a success alert — check it out!
-          </Alert>
-        ) : (
-          <Alert severity="error">This is an error alert — check it out!</Alert>
-        )}
-      </div>
+      {loading ? (
+        <Circles color="#00BFFF" height={80} width={80} />
+      ) : (
+        <>
+          <div className="form-block-content">
+            <Select
+              onChange={(e) => chooseStudentHandle(e)}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={inputData.studentName}
+              label="Quarter">
+              {students.map((student) => {
+                return <MenuItem value={student.name}>{student.name}</MenuItem>;
+              })}
+            </Select>
+          </div>
+          <div className="form-block-content">
+            <InputLabel
+              className="form-block-field"
+              id="demo-simple-select-label">
+              Year
+            </InputLabel>
+            <TextField
+              className="form-block-field"
+              onChange={yearHandle}
+              id="standard-basic"
+              variant="standard"
+              type="number"
+              value={inputData.year}
+            />
+          </div>
+          <div className="form-block-content">
+            <InputLabel id="demo-simple-select-label">Quarter</InputLabel>
+            <Select
+              className="form-block-field"
+              onChange={(e) => quarterHandle(e)}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={inputData.quarter}
+              label="Quarter">
+              {quarters.map((quarter) => {
+                return (
+                  <MenuItem value={quarter}>{quarter.toUpperCase()}</MenuItem>
+                );
+              })}
+            </Select>
+          </div>
+          <div className="form-block-content">
+            <InputLabel id="demo-simple-select-label">Lesson</InputLabel>
+            <Select
+              onChange={(e) => lessonHandle(e)}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={inputData.lesson}
+              label="Lesson">
+              {lessons.map((lesson) => {
+                return (
+                  <MenuItem value={lesson}>{lesson.toUpperCase()}</MenuItem>
+                );
+              })}
+            </Select>
+            <InputLabel id="demo-simple-select-label">Grade</InputLabel>
+          </div>
+          <div className="form-block-content">
+            <Select
+              onChange={(e) => {
+                gradeHandle(e);
+              }}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={inputData.grade}
+              label="Grades">
+              {grades.map((quarter) => {
+                return (
+                  <MenuItem value={quarter}>{quarter.toUpperCase()}</MenuItem>
+                );
+              })}
+            </Select>
+          </div>
+          <div className="form-block-content">
+            <Button
+              disabled={validateInput()}
+              onClick={postGrade}
+              variant="contained">
+              Create
+            </Button>
+          </div>
+          <div style={status === '' ? { opacity: 0 } : { opacity: 1 }}>
+            {status === 201 ? (
+              <Alert severity="success">
+                This is a success alert — check it out!
+              </Alert>
+            ) : (
+              <Alert severity="error">
+                This is an error alert — check it out!
+              </Alert>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }

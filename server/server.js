@@ -23,10 +23,13 @@ app.listen(env.parsed.PORT, () => {
   console.log('serv run');
 });
 
-app.post('/lesson/reports/avg-per-quarter-and-year');
+app.get(
+  '/lesson/reports/avg-per-quarter-and-year',
+  reportsController.getLessonsAvgPerQuarterAndYear
+);
 
 app.get(
-  '/lesson/report/lesson-quarter-avg',
+  '/lesson/report/per-quarter-avg',
   reportsController.getLessonQuarterAvg
 );
 
@@ -35,7 +38,7 @@ app.get(
   reportsController.getStudentQuarterAvg
 );
 
-app.get('/get-years', reportsController.getYears);
+app.get('/years', reportsController.getYears);
 
 app.get('/students', studentsController.getStudents);
 

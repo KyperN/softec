@@ -1,9 +1,10 @@
 import './App.css';
-import InputForm from './components/InputForm/InputForm';
+
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { Route, Routes } from 'react-router';
-import axios from 'axios';
+
 import Charts from './components/Chart/Chart';
-import { useEffect } from 'react';
+
 import Home from './components/Home/Home';
 import StudentForm from './components/StudentForm/StudentForm';
 import GradeForm from './components/GradeForm/GradeForm';

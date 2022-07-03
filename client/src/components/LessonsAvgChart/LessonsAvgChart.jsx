@@ -2,6 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Button, MenuItem, Select } from '@mui/material';
+import { Chart as ChartJS } from 'chart.js/auto';
+import { Chart } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import env from 'react-dotenv';
 export default function StudentAvgChart() {
   const [yearsAndQuarters, setYearsAndQuarters] = useState([]);
@@ -10,14 +13,14 @@ export default function StudentAvgChart() {
     year: '',
     quarter: '',
   });
+  const [chartData, setChartData] = useState([]);
 
   const handleInputData = (e) => {
     console.log(e.target.value);
-    setInputData((prev) => ({
+    setInputData(() => ({
       year: e.target.value.year,
       quarter: e.target.value.quarter,
     }));
-    console.log(inputData);
   };
 
   const clearInputs = () => {
@@ -32,19 +35,22 @@ export default function StudentAvgChart() {
   };
 
   const getYearsAndQuarters = async () => {
-    const { data } = await axios.get(`${env.SERVER_URL}/get-years`);
+    const { data } = await axios.get(`${env.SERVER_URL}/years`);
     setYearsAndQuarters(data);
   };
-  const getData = async () => {
-    console.log(inputData);
+  const getChartData = async () => {
     setTimeout(clearInputs, 500);
-    const { data } = await axios.post(
+    const { data } = await axios.get(
       `${env.SERVER_URL}/lesson/reports/avg-per-quarter-and-year`,
       {
-        year: inputData.year,
-        quarter: inputData.quarter,
+        params: {
+          year: inputData.year,
+          quarter: inputData.quarter,
+        },
       }
     );
+    console.log(data);
+    setChartData(data);
   };
 
   useEffect(() => {
@@ -67,10 +73,25 @@ export default function StudentAvgChart() {
           );
         })}
       </Select>
-      <Button disabled={validateInput()} onClick={getData} variant="contained">
+      <Button
+        disabled={validateInput()}
+        onClick={getChartData}
+        variant="contained">
         Submit
       </Button>
-      LessonsAvgChart
+      <Bar
+        options={{}}
+        data={{
+          labels: chartData.map((elem) => elem._id),
+          datasets: [
+            {
+              label: 'Lesson Avg Per Quarter',
+              data: chartData.map((elem) => elem.averageGrade),
+              backgroundColor: ['orange'],
+            },
+          ],
+        }}
+      />
     </div>
   );
 }

@@ -13,9 +13,7 @@ const getYears = async (req, res) => {
       { $sort: { _id: 1 } },
     ]);
     res.status(200).send(data);
-    console.log(data);
   } catch (err) {
-    console.log(err.message);
     return res.status(500).send(err.message);
   }
 };
@@ -37,10 +35,10 @@ const getLessonQuarterAvg = async (req, res) => {
         },
       },
     ]);
-    console.log(data);
+
     res.status(200).send(data);
   } catch (err) {
-    console.log(err.message);
+    res.status(500).send(err.message);
   }
 };
 
@@ -65,17 +63,18 @@ const getStudentQuarterAvg = async (req, res) => {
     ]);
     res.status(200).send(data);
   } catch (err) {
-    console.log(err.message);
+    res.status(500).send(err.message);
   }
 };
 
-const getAvgPerQuarterAndYear = async (req, res) => {
+const getLessonsAvgPerQuarterAndYear = async (req, res) => {
+  const { year, quarter } = req.query;
   try {
     const data = await Grade.aggregate([
       {
         $match: {
-          year: req.body.year,
-          quarter: req.body.quarter,
+          year: year,
+          quarter: quarter,
         },
       },
       {
@@ -85,6 +84,7 @@ const getAvgPerQuarterAndYear = async (req, res) => {
         },
       },
     ]);
+    console.log(data);
     res.status(200).send(data);
   } catch (err) {}
 };
@@ -93,4 +93,5 @@ module.exports = {
   getYears: getYears,
   getLessonQuarterAvg: getLessonQuarterAvg,
   getStudentQuarterAvg: getStudentQuarterAvg,
+  getLessonsAvgPerQuarterAndYear: getLessonsAvgPerQuarterAndYear,
 };

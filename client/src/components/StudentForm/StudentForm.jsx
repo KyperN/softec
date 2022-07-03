@@ -6,6 +6,7 @@ import {
   Select,
   TextField,
 } from '@mui/material';
+import env from 'react-dotenv';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
@@ -63,7 +64,7 @@ export default function StudentForm() {
     console.log(studentData);
     try {
       await axios
-        .post('http://localhost:5000/create-student', {
+        .post(`${env.SERVER_URL}/create-student`, {
           name: name,
           dateOfBirth: dateOfBirth,
           mainClass: mainClass,

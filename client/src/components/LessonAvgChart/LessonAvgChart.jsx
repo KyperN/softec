@@ -22,16 +22,15 @@ export default function StudentAvgChart() {
   };
 
   const getYears = async () => {
-    const { data } = await axios.get(`${env.SERVER_URL}get-years`);
+    const { data } = await axios.get(`${env.SERVER_URL}/years`);
     const years = [...new Set(data.map((elem) => elem.year))];
     setYears(years);
-    console.log(years);
   };
 
   const getChartData = async () => {
     setTimeout(clearInputs, 500);
     const { data } = await axios.get(
-      `${env.SERVER_URL}/lesson/report/lesson-quarter-avg`,
+      `${env.SERVER_URL}/lesson/report/per-quarter-avg`,
       {
         params: {
           lesson: chosenLesson,
@@ -40,6 +39,8 @@ export default function StudentAvgChart() {
       }
     );
     setChartData(data);
+    // eslint-disable-next-line no-unused-expressions
+    data.length === 0 ? alert('No records') : null;
   };
 
   const validateInput = () => {
@@ -91,7 +92,7 @@ export default function StudentAvgChart() {
               .sort(),
             datasets: [
               {
-                label: 'Average per Quarter',
+                label: 'Lesson Avg Per Quarter',
                 data: chartData.map((elem) => elem.averageGrade),
                 backgroundColor: ['orange'],
               },
