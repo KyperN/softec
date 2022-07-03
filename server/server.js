@@ -6,8 +6,14 @@ const Grade = require('./schemes/Grade');
 const studentsController = require('./controllers/studentsController');
 const reportsController = require('./controllers/reportsController');
 const app = express();
+const cors = require('cors');
 
-app.use(express.json());
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200,
+};
+
+app.use(express.json(), cors(corsOptions));
 
 const start = async () => {
   try {

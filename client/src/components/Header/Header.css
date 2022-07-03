@@ -8,6 +8,7 @@
 h2 {
   text-decoration: none;
   transition-duration: 0.55s;
+  text-shadow: 4px 4px 2px rgba(150, 150, 150, 1);
 }
 h2:hover {
   letter-spacing: 5px;

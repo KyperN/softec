@@ -102,7 +102,6 @@ export default function StudentForm() {
         />
       </div>
       <div className="form-block-contet">
-        <InputLabel id="demo-simple-select-label">D.O.B</InputLabel>
         <TextField
           value={inputData.dateOfBirth}
           onChange={handleDateOfBirth}

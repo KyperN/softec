@@ -25,7 +25,10 @@ export default function GradeForm() {
 
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState({
+    message: '',
+    success: false,
+  });
   const [inputData, setInputData] = useState({
     year: '',
     quarter: '',
@@ -110,9 +113,13 @@ export default function GradeForm() {
           studentId: studentId,
         })
         .then((res) => {
-          setStatus(res.status);
+          setStatus({ message: res.data.message, success: true });
         })
         .then(() => {
+          setTimeout(clearData, 1000);
+        })
+        .catch((err) => {
+          setStatus({ message: err.response.data.message, success: false });
           setTimeout(clearData, 1000);
         });
     } catch (error) {
@@ -121,7 +128,7 @@ export default function GradeForm() {
   };
 
   const clearData = () => {
-    setStatus('');
+    setStatus({ message: '', success: false });
     setInputData({
       year: '',
       quarter: '',
@@ -221,15 +228,11 @@ export default function GradeForm() {
               Create
             </Button>
           </div>
-          <div style={status === '' ? { opacity: 0 } : { opacity: 1 }}>
-            {status === 201 ? (
-              <Alert severity="success">
-                This is a success alert — check it out!
-              </Alert>
+          <div style={status.message === '' ? { opacity: 0 } : { opacity: 1 }}>
+            {status.success ? (
+              <Alert severity="success">{status.message}</Alert>
             ) : (
-              <Alert severity="error">
-                This is an error alert — check it out!
-              </Alert>
+              <Alert severity="error">{status.message}</Alert>
             )}
           </div>
         </>
