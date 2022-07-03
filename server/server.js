@@ -2,10 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Student = require('./schemes/Student');
 const Grade = require('./schemes/Grade');
-const app = express();
-
-const PORT = 5000;
 const studentsController = require('./controllers/studentsController');
+const reportsController = require('./controllers/reportsController');
+const app = express();
+const PORT = 5000;
 
 app.use(express.json());
 
@@ -25,89 +25,37 @@ app.listen(PORT, () => {
   console.log('serv run');
 });
 
-app.post('/student/report/per-quarter-avg', async (req, res) => {
-  const { studentId } = req.body;
+app.post('/lesson/reports/avg-per-quarter-and-year', async (req, res) => {
   try {
     const data = await Grade.aggregate([
       {
         $match: {
-          studentId: mongoose.Types.ObjectId(studentId),
-        },
-      },
-      {
-        $group: {
-          _id: { $concat: ['$year', '-', '$quarter'] },
-          year: { $max: '$year' },
-          quarter: { $max: '$quarter' },
-          averageGrade: { $avg: '$grade' },
-        },
-      },
-      { $sort: { _id: 1 } },
-    ]);
-    res.status(200).send(data);
-  } catch (err) {
-    console.log(err.message);
-  }
-});
-
-app.post('/lesson/report/subject-quarter-avg', async (req, res) => {
-  try {
-    const data = await Grade.aggregate([
-      {
-        $match: {
-          lesson: req.body.lesson,
           year: req.body.year,
+          quarter: req.body.quarter,
         },
       },
       {
         $group: {
-          _id: '$quarter',
+          _id: '$lesson',
           averageGrade: { $avg: '$grade' },
         },
       },
     ]);
     console.log(data);
-    res.status(200).send(data);
-  } catch (err) {
-    console.log(err.message);
-  }
+  } catch (err) {}
 });
 
-app.get('/get-years', async (req, res) => {
-  try {
-    const data = await Grade.aggregate([
-      {
-        $group: {
-          _id: { $concat: ['$year', ' - ', '$quarter'] },
-          year: { $max: '$year' },
-          quarter: { $max: '$quarter' },
-        },
-      },
-      { $sort: { _id: 1 } },
-    ]);
-    res.status(200).send(data);
-  } catch (err) {
-    return res.status(500).send(err.message);
-  }
-});
+app.get(
+  '/lesson/report/subject-quarter-avg',
+  reportsController.getLessonQuarterAvg
+);
 
-app.get('/lesson/reports/avg-per-quarter-and-year', async (req, res) => {
-  const data = await Grade.aggregate([
-    {
-      $match: {
-        year: '2022',
-        quarter: 'q1',
-      },
-    },
-    {
-      $group: {
-        _id: '$subject',
-        averageGrade: { $avg: '$grade' },
-      },
-    },
-  ]);
-  console.log(data);
-});
+app.post(
+  '/student/report/per-quarter-avg',
+  reportsController.getStudentQuarterAvg
+);
+
+app.get('/get-years', reportsController.getYears);
 
 app.get('/students', studentsController.getStudents);
 

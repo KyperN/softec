@@ -14,7 +14,7 @@ const createStudent = async (req, res) => {
   const existingUsers = await Student.find({ name: name });
   try {
     if (existingUsers.length > 0) {
-      res.status(409).send('Error');
+      return res.status(409).send('Error');
     } else {
       const student = await Student.create({
         name: name,

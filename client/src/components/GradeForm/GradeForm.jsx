@@ -83,7 +83,10 @@ export default function GradeForm() {
   const validateInput = () => {
     const { year, quarter, lesson, grade, studentName } = inputData;
     return (
-      year === '' && quarter === '' && lesson === '' && grade === '',
+      year === '' ||
+      quarter === '' ||
+      lesson === '' ||
+      grade === '' ||
       studentName === ''
     );
   };

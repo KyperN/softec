@@ -29,11 +29,13 @@ export default function StudentAvgChart() {
 
   const getChartData = async () => {
     setTimeout(clearInputs, 500);
-    const { data } = await axios.post(
+    const { data } = await axios.get(
       'http://localhost:5000/lesson/report/subject-quarter-avg',
       {
-        lesson: chosenLesson,
-        year: chosenYear,
+        params: {
+          lesson: chosenLesson,
+          year: chosenYear,
+        },
       }
     );
     setChartData(data);
@@ -41,7 +43,7 @@ export default function StudentAvgChart() {
   };
 
   const validateInput = () => {
-    return chosenLesson === '';
+    return chosenLesson === '' || chosenYear === '';
   };
 
   const clearInputs = () => {
