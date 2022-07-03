@@ -68,8 +68,12 @@ export default function StudentAvgChart() {
         id="demo-simple-select"
         value={inputData.lesson}
         label="Lesson">
-        {lessons.map((lesson) => {
-          return <MenuItem value={lesson}>{lesson}</MenuItem>;
+        {lessons.map((lesson, i) => {
+          return (
+            <MenuItem key={i} value={lesson}>
+              {lesson}
+            </MenuItem>
+          );
         })}
       </Select>
       <Select
@@ -78,8 +82,12 @@ export default function StudentAvgChart() {
         id="demo-simple-select"
         value={inputData.year}
         label="Year">
-        {years.map((year) => {
-          return <MenuItem value={year}>{year}</MenuItem>;
+        {years.map((year, i) => {
+          return (
+            <MenuItem key={i} value={year}>
+              {year}
+            </MenuItem>
+          );
         })}
       </Select>
       <Button

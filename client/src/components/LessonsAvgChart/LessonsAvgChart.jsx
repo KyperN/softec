@@ -66,7 +66,7 @@ export default function StudentAvgChart() {
         label="Quarter">
         {yearsAndQuarters.map((data) => {
           return (
-            <MenuItem value={data._id}>
+            <MenuItem key={data._id.quarter} value={data._id}>
               {data._id.year + '-' + data._id.quarter}
             </MenuItem>
           );

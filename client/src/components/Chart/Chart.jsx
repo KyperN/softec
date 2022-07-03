@@ -10,7 +10,7 @@ export default function Charts() {
     'Lessons Average Per Quarter',
   ];
 
-  const [report, setReport] = useState(null);
+  const [report, setReport] = useState('');
 
   const reportTypeHandle = (e) => {
     setReport(e.target.value);
@@ -38,8 +38,12 @@ export default function Charts() {
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         label="Student Class">
-        {reports.map((report) => {
-          return <MenuItem value={report}>{report}</MenuItem>;
+        {reports.map((report, i) => {
+          return (
+            <MenuItem key={i} value={report}>
+              {report}
+            </MenuItem>
+          );
         })}
       </Select>
       {displayChart()}

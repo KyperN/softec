@@ -153,7 +153,11 @@ export default function GradeForm() {
               value={inputData.studentName}
               label="Quarter">
               {students.map((student) => {
-                return <MenuItem value={student.name}>{student.name}</MenuItem>;
+                return (
+                  <MenuItem key={student.name} value={student.name}>
+                    {student.name}
+                  </MenuItem>
+                );
               })}
             </Select>
           </div>
@@ -183,7 +187,9 @@ export default function GradeForm() {
               label="Quarter">
               {quarters.map((quarter) => {
                 return (
-                  <MenuItem value={quarter}>{quarter.toUpperCase()}</MenuItem>
+                  <MenuItem key={quarter} value={quarter}>
+                    {quarter.toUpperCase()}
+                  </MenuItem>
                 );
               })}
             </Select>
@@ -198,7 +204,9 @@ export default function GradeForm() {
               label="Lesson">
               {lessons.map((lesson) => {
                 return (
-                  <MenuItem value={lesson}>{lesson.toUpperCase()}</MenuItem>
+                  <MenuItem key={lesson} value={lesson}>
+                    {lesson.toUpperCase()}
+                  </MenuItem>
                 );
               })}
             </Select>
@@ -215,7 +223,9 @@ export default function GradeForm() {
               label="Grades">
               {grades.map((quarter) => {
                 return (
-                  <MenuItem value={quarter}>{quarter.toUpperCase()}</MenuItem>
+                  <MenuItem key={quarter} value={quarter}>
+                    {quarter.toUpperCase()}
+                  </MenuItem>
                 );
               })}
             </Select>

@@ -8,7 +8,7 @@ const reportsController = require('./controllers/reportsController');
 const app = express();
 const cors = require('cors');
 
-var corsOptions = {
+const corsOptions = {
   origin: 'http://localhost:3000',
   optionsSuccessStatus: 200,
 };

@@ -55,8 +55,12 @@ export default function StudentAvgChart() {
         id="demo-simple-select"
         value={chosenStudent}
         label="Student">
-        {students.map((student) => {
-          return <MenuItem value={student}>{student.name}</MenuItem>;
+        {students.map((student, i) => {
+          return (
+            <MenuItem key={i} value={student}>
+              {student.name}
+            </MenuItem>
+          );
         })}
       </Select>
       <Button
