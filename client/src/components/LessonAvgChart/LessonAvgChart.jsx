@@ -7,18 +7,20 @@ import env from 'react-dotenv';
 import { useState, useEffect } from 'react';
 import { Button, MenuItem, Select } from '@mui/material';
 export default function StudentAvgChart() {
-  const [chosenLesson, setChosenLesson] = useState('');
-  const [chosenYear, setChosenYear] = useState('');
   const [years, setYears] = useState([]);
   const [chartData, setChartData] = useState([]);
   const lessons = ['Math', 'IT', 'Literature'];
+  const [inputData, setInputData] = useState({
+    year: '',
+    lesson: '',
+  });
 
   const handleChosenLesson = (e) => {
-    setChosenLesson(e.target.value);
+    setInputData((prev) => ({ ...prev, lesson: e.target.value }));
   };
 
   const handleChosenYear = (e) => {
-    setChosenYear(e.target.value);
+    setInputData((prev) => ({ ...prev, year: e.target.value }));
   };
 
   const getYears = async () => {
@@ -33,8 +35,8 @@ export default function StudentAvgChart() {
       `${env.SERVER_URL}/lesson/report/per-quarter-avg`,
       {
         params: {
-          lesson: chosenLesson,
-          year: chosenYear,
+          lesson: inputData.lesson,
+          year: inputData.year,
         },
       }
     );
@@ -44,11 +46,14 @@ export default function StudentAvgChart() {
   };
 
   const validateInput = () => {
-    return chosenLesson === '' || chosenYear === '';
+    return inputData.lesson === '' || inputData.year === '';
   };
 
   const clearInputs = () => {
-    setChosenLesson('');
+    setInputData({
+      year: '',
+      lesson: '',
+    });
   };
 
   useEffect(() => {
@@ -61,7 +66,7 @@ export default function StudentAvgChart() {
         onChange={handleChosenLesson}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={chosenLesson}
+        value={inputData.lesson}
         label="Lesson">
         {lessons.map((lesson) => {
           return <MenuItem value={lesson}>{lesson}</MenuItem>;
@@ -71,7 +76,7 @@ export default function StudentAvgChart() {
         onChange={handleChosenYear}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={chosenYear}
+        value={inputData.year}
         label="Year">
         {years.map((year) => {
           return <MenuItem value={year}>{year}</MenuItem>;
@@ -88,7 +93,10 @@ export default function StudentAvgChart() {
           options={{}}
           data={{
             labels: chartData
-              .map((elem) => `${chosenYear} - ${elem._id}`)
+
+              .map((elem) => {
+                return elem._id.toUpperCase();
+              })
               .sort(),
             datasets: [
               {

@@ -14,7 +14,10 @@ const createStudent = async (req, res) => {
   const existingUsers = await Student.find({ name: name });
   try {
     if (existingUsers.length > 0) {
-      return res.status(409).send('Error');
+      return res.status(409).send({
+        success: false,
+        message: 'Student exists',
+      });
     } else {
       const student = await Student.create({
         name: name,
@@ -22,11 +25,16 @@ const createStudent = async (req, res) => {
         mainClass: mainClass,
       });
       await student.save();
-      res.status(201).send('Success');
+      res.status(201).send({
+        success: true,
+        message: 'Successfully created',
+      });
     }
   } catch (err) {
-    console.log(err.message);
-    return res.status(500).send(err.message);
+    return res.status(500).send({
+      success: false,
+      message: 'Server error',
+    });
   }
 };
 
@@ -42,10 +50,16 @@ const createGrade = async (req, res) => {
       studentId: studentId,
     });
     await record.save();
-    res.status(201).send('OK');
+    res.status(201).send({
+      success: true,
+      message: 'Successfully created',
+    });
   } catch (err) {
     console.log(err.message);
-    res.status(500).send(err.message);
+    res.status(500).send({
+      success: false,
+      message: 'Server error',
+    });
   }
 };
 

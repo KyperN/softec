@@ -6,7 +6,7 @@ import {
   Select,
   TextField,
 } from '@mui/material';
-import { Circles } from 'react-loader-spinner';
+import { ThreeDots } from 'react-loader-spinner';
 import env from 'react-dotenv';
 import React from 'react';
 import './GradeForm.css';
@@ -135,7 +135,7 @@ export default function GradeForm() {
   return (
     <div className="form-block">
       {loading ? (
-        <Circles color="#00BFFF" height={80} width={80} />
+        <ThreeDots color="#00BFFF" height={80} width={80} />
       ) : (
         <>
           <div className="form-block-content">

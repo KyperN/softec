@@ -27,7 +27,10 @@ export default function StudentForm() {
     mainClass: '',
   });
 
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState({
+    message: '',
+    success: false,
+  });
   const studentData = useSelector((state) => state.student);
 
   const handleName = (e) => {
@@ -51,7 +54,7 @@ export default function StudentForm() {
   };
 
   const clearData = () => {
-    setStatus('');
+    setStatus({ message: '', success: false });
     setInputData({
       name: '',
       dateOfBirth: '',
@@ -70,9 +73,13 @@ export default function StudentForm() {
           mainClass: mainClass,
         })
         .then((res) => {
-          setStatus(res.status);
+          setStatus({ message: res.data.message, success: true });
         })
         .then(() => {
+          setTimeout(clearData, 1000);
+        })
+        .catch((err) => {
+          setStatus({ message: err.response.data.message, success: false });
           setTimeout(clearData, 1000);
         });
     } catch (error) {
@@ -83,44 +90,53 @@ export default function StudentForm() {
   };
 
   return (
-    <div className="content">
-      <InputLabel id="demo-simple-select-label">Students Name</InputLabel>
-      <TextField
-        value={inputData.name}
-        onChange={handleName}
-        type="text"
-        id="standard-basic"
-        variant="standard"
-      />
-      <InputLabel id="demo-simple-select-label">D.O.B</InputLabel>
-      <TextField
-        value={inputData.dateOfBirth}
-        onChange={handleDateOfBirth}
-        type="date"
-        id="standart-basic"
-      />
-      <InputLabel id="demo-simple-select-label">Student Class</InputLabel>
-      <Select
-        value={inputData.mainClass}
-        onChange={handleStudentClass}
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        label="Student Class">
-        <MenuItem value={'it'}>IT</MenuItem>
-        <MenuItem value={'math'}>Math</MenuItem>
-        <MenuItem value={'literature'}>Literature</MenuItem>
-      </Select>
-      <Button
-        disabled={validateInput()}
-        onClick={postStudent}
-        variant="contained">
-        Create
-      </Button>
-      <div style={status === '' ? { opacity: 0 } : { opacity: 1 }}>
-        {status === 201 ? (
-          <Alert severity="success">Success</Alert>
+    <div className="form-block">
+      <div className="form-block-content">
+        <InputLabel id="demo-simple-select-label">Students Name</InputLabel>
+        <TextField
+          value={inputData.name}
+          onChange={handleName}
+          type="text"
+          id="standard-basic"
+          variant="standard"
+        />
+      </div>
+      <div className="form-block-contet">
+        <InputLabel id="demo-simple-select-label">D.O.B</InputLabel>
+        <TextField
+          value={inputData.dateOfBirth}
+          onChange={handleDateOfBirth}
+          type="date"
+          id="standart-basic"
+        />
+      </div>
+      <div className="form-block-content">
+        <InputLabel id="demo-simple-select-label">Student Class</InputLabel>
+        <Select
+          value={inputData.mainClass}
+          onChange={handleStudentClass}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          label="Student Class">
+          <MenuItem value={'it'}>IT</MenuItem>
+          <MenuItem value={'math'}>Math</MenuItem>
+          <MenuItem value={'literature'}>Literature</MenuItem>
+        </Select>
+      </div>
+      <div className="form-block-content">
+        <Button
+          disabled={validateInput()}
+          onClick={postStudent}
+          variant="contained">
+          Create
+        </Button>
+      </div>
+
+      <div style={status.message === '' ? { opacity: 0 } : { opacity: 1 }}>
+        {status.success ? (
+          <Alert severity="success">{status.message}</Alert>
         ) : (
-          <Alert severity="error">Failed</Alert>
+          <Alert severity="error">{status.message}</Alert>
         )}
       </div>
     </div>

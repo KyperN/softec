@@ -3,4 +3,12 @@
   width: 100%;
   text-align: center;
   text-transform: uppercase;
+  text-decoration: none;
+}
+h2 {
+  text-decoration: none;
+  transition-duration: 0.55s;
+}
+h2:hover {
+  letter-spacing: 5px;
 }

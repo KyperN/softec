@@ -16,7 +16,7 @@ export default function Charts() {
     setReport(e.target.value);
   };
 
-  const render = () => {
+  const displayChart = () => {
     switch (report) {
       case 'Student Average Per Quarter':
         return <StudentAvgChart />;
@@ -42,7 +42,7 @@ export default function Charts() {
           return <MenuItem value={report}>{report}</MenuItem>;
         })}
       </Select>
-      {render()}
+      {displayChart()}
     </div>
   );
 }

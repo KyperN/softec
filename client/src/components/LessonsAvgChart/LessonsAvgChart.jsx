@@ -49,7 +49,6 @@ export default function StudentAvgChart() {
         },
       }
     );
-    console.log(data);
     setChartData(data);
   };
 
