@@ -5,7 +5,7 @@ import { Chart } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
 import env from 'react-dotenv';
 import { useState, useEffect } from 'react';
-import { Button, MenuItem, Select } from '@mui/material';
+import { Button, InputLabel, MenuItem, Select } from '@mui/material';
 export default function StudentAvgChart() {
   const [years, setYears] = useState([]);
   const [chartData, setChartData] = useState([]);
@@ -63,6 +63,7 @@ export default function StudentAvgChart() {
   return (
     <div>
       <Select
+        style={{ marginLeft: 20, marginTop: 25 }}
         onChange={handleChosenLesson}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
@@ -77,6 +78,7 @@ export default function StudentAvgChart() {
         })}
       </Select>
       <Select
+        style={{ marginLeft: 30 }}
         onChange={handleChosenYear}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
@@ -91,6 +93,7 @@ export default function StudentAvgChart() {
         })}
       </Select>
       <Button
+        style={{ marginLeft: 30 }}
         disabled={validateInput()}
         onClick={getChartData}
         variant="contained">

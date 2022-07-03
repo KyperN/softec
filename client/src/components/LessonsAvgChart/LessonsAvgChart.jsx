@@ -16,7 +16,6 @@ export default function StudentAvgChart() {
   const [chartData, setChartData] = useState([]);
 
   const handleInputData = (e) => {
-    console.log(e.target.value);
     setInputData(() => ({
       year: e.target.value.year,
       quarter: e.target.value.quarter,
@@ -59,14 +58,15 @@ export default function StudentAvgChart() {
   return (
     <div>
       <Select
+        style={{ marginRight: 20, marginTop: 25 }}
         onChange={handleInputData}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={inputData.year + '-' + inputData.quarter}
         label="Quarter">
-        {yearsAndQuarters.map((data) => {
+        {yearsAndQuarters.map((data, i) => {
           return (
-            <MenuItem key={data._id.quarter} value={data._id}>
+            <MenuItem key={i} value={data._id}>
               {data._id.year + '-' + data._id.quarter}
             </MenuItem>
           );

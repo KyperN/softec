@@ -50,6 +50,7 @@ export default function StudentAvgChart() {
   return (
     <div>
       <Select
+        style={{ marginRight: 20, marginTop: 20 }}
         onChange={handleChosenStudent}
         labelId="demo-simple-select-label"
         id="demo-simple-select"

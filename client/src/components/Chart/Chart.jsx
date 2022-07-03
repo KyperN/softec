@@ -1,4 +1,4 @@
-import { MenuItem, Select } from '@mui/material';
+import { InputLabel, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 import StudentAvgChart from '../StudentAvgChart/StudentAvgChart';
 import LessonAvgChart from '../LessonAvgChart/LessonAvgChart';
@@ -32,6 +32,11 @@ export default function Charts() {
 
   return (
     <div>
+      <InputLabel
+        style={{ marginTop: 20, marginBottom: 20 }}
+        id="demo-select-small">
+        Chart Type
+      </InputLabel>
       <Select
         value={report}
         onChange={reportTypeHandle}
