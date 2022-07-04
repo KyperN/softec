@@ -96,7 +96,7 @@ export default function GradeForm() {
       year === '' ||
       quarter === '' ||
       lesson === '' ||
-      grade === '' ||
+      grade === null ||
       studentName === ''
     );
   };
