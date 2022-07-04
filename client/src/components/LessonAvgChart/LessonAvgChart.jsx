@@ -42,7 +42,7 @@ export default function StudentAvgChart() {
     );
     setChartData(data);
     // eslint-disable-next-line no-unused-expressions
-    data.length === 0 ? alert('No records') : null;
+    data.length === 0 ? alert('No records available') : null;
   };
 
   const validateInput = () => {

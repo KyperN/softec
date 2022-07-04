@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { Button, MenuItem, Select } from '@mui/material';
+import { Button, MenuItem, Select, TextField } from '@mui/material';
 import { Chart as ChartJS } from 'chart.js/auto';
 import { Chart } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
 import env from 'react-dotenv';
+import './LessonsAvgChart.css';
 export default function StudentAvgChart() {
   const [yearsAndQuarters, setYearsAndQuarters] = useState([]);
 
@@ -49,6 +50,8 @@ export default function StudentAvgChart() {
       }
     );
     setChartData(data);
+    // eslint-disable-next-line no-unused-expressions
+    data.length === 0 ? alert('No records available') : null;
   };
 
   useEffect(() => {
@@ -56,7 +59,7 @@ export default function StudentAvgChart() {
   }, []);
 
   return (
-    <div>
+    <div className="a">
       <Select
         style={{ marginRight: 20, marginTop: 25 }}
         onChange={handleInputData}
@@ -72,7 +75,18 @@ export default function StudentAvgChart() {
           );
         })}
       </Select>
+      <div className="form-content">
+        <TextField
+          className="form-block-field"
+          id="standard-basic"
+          variant="standard"
+          type="text"
+          value={inputData.year + '-' + inputData.quarter}
+        />
+      </div>
+
       <Button
+        className="form"
         disabled={validateInput()}
         onClick={getChartData}
         variant="contained">

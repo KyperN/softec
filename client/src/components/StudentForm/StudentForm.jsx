@@ -64,7 +64,6 @@ export default function StudentForm() {
 
   const postStudent = async () => {
     const { name, dateOfBirth, mainClass } = studentData;
-    console.log(studentData);
     try {
       await axios
         .post(`${env.SERVER_URL}/create-student`, {

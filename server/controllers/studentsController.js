@@ -43,7 +43,6 @@ const createStudent = async (req, res) => {
 
 const createGrade = async (req, res) => {
   const { year, quarter, grade, lesson, studentId } = req.body;
-  console.log(studentId);
   const foundGrade = await Grade.find({
     studentId: studentId,
     quarter: quarter,
