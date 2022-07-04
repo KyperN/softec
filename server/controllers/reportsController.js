@@ -48,7 +48,10 @@ const getLessonQuarterAvg = async (req, res) => {
       data: data,
     });
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send({
+      success: false,
+      message: 'Server error',
+    });
   }
 };
 
@@ -71,9 +74,15 @@ const getStudentQuarterAvg = async (req, res) => {
       },
       { $sort: { _id: 1 } },
     ]);
-    res.status(200).send(data);
+    res.status(200).send({
+      success: true,
+      data: data,
+    });
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send({
+      success: false,
+      message: 'Server error',
+    });
   }
 };
 
@@ -82,7 +91,7 @@ const getLessonsAvgPerQuarterAndYear = async (req, res) => {
   try {
     const data = await Grade.aggregate([
       {
-        $match: {
+        $mach: {
           year: year,
           quarter: quarter,
         },
@@ -94,8 +103,16 @@ const getLessonsAvgPerQuarterAndYear = async (req, res) => {
         },
       },
     ]);
-    res.status(200).send(data);
-  } catch (err) {}
+    res.status(200).send({
+      success: true,
+      data: data,
+    });
+  } catch (err) {
+    return res.status(500).send({
+      success: false,
+      message: 'Server error',
+    });
+  }
 };
 
 module.exports = {

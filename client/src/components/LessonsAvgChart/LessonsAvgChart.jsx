@@ -40,15 +40,16 @@ export default function StudentAvgChart() {
   };
   const getChartData = async () => {
     setTimeout(clearInputs, 500);
-    const { data } = await axios.get(
-      `${env.SERVER_URL}/lesson/reports/avg-per-quarter-and-year`,
-      {
+    const { data } = await axios
+      .get(`${env.SERVER_URL}/lesson/reports/avg-per-quarter-and-year`, {
         params: {
           year: inputData.year,
           quarter: inputData.quarter,
         },
-      }
-    );
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
     setChartData(data);
     // eslint-disable-next-line no-unused-expressions
     data.length === 0 ? alert('No records available') : null;

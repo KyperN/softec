@@ -32,21 +32,21 @@ export default function StudentAvgChart() {
   const getChartData = async () => {
     setTimeout(clearInputs, 500);
     try {
-      const { data } = await axios.get(
-        `${env.SERVER_URL}/lesson/report/per-quarter-avg`,
-        {
+      const { data } = await axios
+        .get(`${env.SERVER_URL}/lesson/report/per-quarter-avg`, {
           params: {
             lesson: inputData.lesson,
             year: inputData.year,
           },
-        }
-      );
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+        });
       setChartData(data.data);
-
       // eslint-disable-next-line no-unused-expressions
       data.data.length === 0 ? alert('No records available') : '';
     } catch (e) {
-      alert(e.message);
+      return e;
     }
   };
 

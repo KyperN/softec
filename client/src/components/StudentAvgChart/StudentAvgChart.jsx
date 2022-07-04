@@ -31,17 +31,18 @@ export default function StudentAvgChart() {
 
   const getChartData = async () => {
     setTimeout(clearInputs, 500);
-    const { data } = await axios.get(
-      `${env.SERVER_URL}/student/report/per-quarter-avg`,
-      {
+    const { data } = await axios
+      .get(`${env.SERVER_URL}/student/report/per-quarter-avg`, {
         params: {
           studentId: chosenStudent._id,
         },
-      }
-    );
-    setChartData(data);
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+    setChartData(data.data);
     // eslint-disable-next-line no-unused-expressions
-    data.length === 0 ? alert('No records available') : null;
+    data.data.length === 0 ? alert('No records available') : null;
     clearInputs();
   };
 
