@@ -36,7 +36,7 @@ export default function StudentAvgChart() {
 
   const getYearsAndQuarters = async () => {
     const { data } = await axios.get(`${env.SERVER_URL}/years`);
-    setYearsAndQuarters(data);
+    setYearsAndQuarters(data.data);
   };
   const getChartData = async () => {
     setTimeout(clearInputs, 500);
@@ -86,7 +86,7 @@ export default function StudentAvgChart() {
       </div>
 
       <Button
-        className="form"
+        style={{ marginTop: 15 }}
         disabled={validateInput()}
         onClick={getChartData}
         variant="contained">

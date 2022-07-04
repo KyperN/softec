@@ -76,6 +76,7 @@ export default function StudentAvgChart() {
         options={{}}
         data={{
           labels: chartData.map((elem) => elem._id),
+
           datasets: [
             {
               label: `Average per Quarter`,

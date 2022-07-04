@@ -25,24 +25,29 @@ export default function StudentAvgChart() {
 
   const getYears = async () => {
     const { data } = await axios.get(`${env.SERVER_URL}/years`);
-    const years = [...new Set(data.map((elem) => elem.year))];
+    const years = [...new Set(data.data.map((elem) => elem.year))];
     setYears(years);
   };
 
   const getChartData = async () => {
     setTimeout(clearInputs, 500);
-    const { data } = await axios.get(
-      `${env.SERVER_URL}/lesson/report/per-quarter-avg`,
-      {
-        params: {
-          lesson: inputData.lesson,
-          year: inputData.year,
-        },
-      }
-    );
-    setChartData(data);
-    // eslint-disable-next-line no-unused-expressions
-    data.length === 0 ? alert('No records available') : null;
+    try {
+      const { data } = await axios.get(
+        `${env.SERVER_URL}/lesson/report/per-quarter-avg`,
+        {
+          params: {
+            lesson: inputData.lesson,
+            year: inputData.year,
+          },
+        }
+      );
+      setChartData(data.data);
+
+      // eslint-disable-next-line no-unused-expressions
+      data.data.length === 0 ? alert('No records available') : '';
+    } catch (e) {
+      alert(e.message);
+    }
   };
 
   const validateInput = () => {

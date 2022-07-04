@@ -6,8 +6,9 @@
   align-items: center;
   justify-content: center;
   border: 1px solid black;
+  border-radius: 12px;
   box-shadow: 2px 2px 15px 3px #000000;
 }
 .form-block-content {
-  margin-top: 25px;
+  margin-top: 5px;
 }

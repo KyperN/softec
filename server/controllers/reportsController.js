@@ -12,9 +12,16 @@ const getYears = async (req, res) => {
       },
       { $sort: { _id: 1 } },
     ]);
-    res.status(200).send(data);
+
+    res.status(200).send({
+      success: true,
+      data: data,
+    });
   } catch (err) {
-    return res.status(500).send(err.message);
+    return res.status(500).send({
+      success: false,
+      message: 'Couldnt query',
+    });
   }
 };
 
@@ -36,7 +43,10 @@ const getLessonQuarterAvg = async (req, res) => {
       },
     ]);
 
-    res.status(200).send(data);
+    res.status(200).send({
+      success: true,
+      data: data,
+    });
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -84,7 +94,6 @@ const getLessonsAvgPerQuarterAndYear = async (req, res) => {
         },
       },
     ]);
-    console.log(data);
     res.status(200).send(data);
   } catch (err) {}
 };
