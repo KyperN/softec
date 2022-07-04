@@ -5,6 +5,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 1px solid black;
+  box-shadow: 2px 2px 15px 3px #000000;
 }
 .form-block-content {
   margin-top: 25px;
