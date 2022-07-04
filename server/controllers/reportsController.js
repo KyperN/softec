@@ -91,7 +91,7 @@ const getLessonsAvgPerQuarterAndYear = async (req, res) => {
   try {
     const data = await Grade.aggregate([
       {
-        $mach: {
+        $match: {
           year: year,
           quarter: quarter,
         },

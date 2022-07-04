@@ -50,7 +50,7 @@ export default function StudentAvgChart() {
       .catch((err) => {
         alert(err.response.data.message);
       });
-    setChartData(data);
+    setChartData(data.data);
     // eslint-disable-next-line no-unused-expressions
     data.length === 0 ? alert('No records available') : null;
   };
