@@ -74,7 +74,14 @@ export default function StudentAvgChart() {
         Submit
       </Button>
       <Bar
-        options={{}}
+        options={{
+          scales: {
+            y: {
+              max: 10,
+              min: 0,
+            },
+          },
+        }}
         data={{
           labels: chartData.map((elem) => elem._id),
 

@@ -106,7 +106,14 @@ export default function StudentAvgChart() {
       </Button>
       <div className="bar">
         <Bar
-          options={{}}
+          options={{
+            scales: {
+              y: {
+                max: 10,
+                min: 0,
+              },
+            },
+          }}
           data={{
             labels: chartData
 
